@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Rating.Models.Item>
+
+@{
+    ViewData["Title"] = "Przedmioty";
+}
+
+<h1>Lista przedmiotów</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Dodaj nowy</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nazwa
+            </th>
+            <th>
+                Opis
+            </th>
+            <th>
+                Cena
+            </th>
+            <th>
+                Kategoria
+            </th>
+            <th>
+                Ocena
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var averageRate = item.Rate != null && item.Rate.Any() ? item.Rate.Select(r => r.Value).Average() : 0;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @if (averageRate > 0)
+                    {
+                        @averageRate.ToString("0.##")
+                    }
+                    else
+                    {
+                        <div>Brak ocen</div>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Rates" asp-route-id="@item.Id">Oceń</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Skasuj</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

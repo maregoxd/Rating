@@ -1,0 +1,19 @@
+﻿@model Rating.Models.Rate
+
+@{
+    ViewData["Title"] = "Szczegóły oceny";
+}
+
+<h1>Szczegóły oceny</h1>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Value)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Value)
+    </dd>
+</dl>
+<div>
+    <a asp-action="Index">Powrót do listy ocen</a>
+</div>
